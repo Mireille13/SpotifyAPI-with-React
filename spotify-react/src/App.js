@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -32,6 +33,23 @@ function App() {
     window.localStorage.removeItem("token");
   }
 
+  const [searchKey, setSearchKey] = useState("");
+  const [artists, setArtists] = useState([]);
+
+  const searchArtists = async (e) => {
+    e.preventDefault();
+    const {data} = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        q: searchKey,
+        type: "artist"
+      }
+    })
+    setArtists(data.artists.items)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -41,7 +59,7 @@ function App() {
             &redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
           : <button onClick={logout}>LogOut</button>}
             
-
+          
       </header>
     </div>
   );
