@@ -59,7 +59,10 @@ function App() {
             &redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
           : <button onClick={logout}>LogOut</button>}
             
-          
+          <form onSubmit={searchArtists}>
+            <input type="text" onChange={e => setSearchKey(e.target.value)}/>
+            <button type={"submit"}>Search</button>
+          </form>
       </header>
     </div>
   );
