@@ -50,19 +50,35 @@ function App() {
     setArtists(data.artists.items)
   }
 
+  const renderArtists = () => {
+    return artists.map(artist => (
+      <div key={artist.id}>
+        {artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
+        {artist.name}
+      </div>
+    ))
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Spotify React PoC</h1>
+
           {!token ? 
           <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}
             &redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
           : <button onClick={logout}>LogOut</button>}
-            
+
+           {token ?
           <form onSubmit={searchArtists}>
             <input type="text" onChange={e => setSearchKey(e.target.value)}/>
             <button type={"submit"}>Search</button>
           </form>
+          : <h2>Login Here</h2>
+         } 
+
+         {renderArtists()}
+         
       </header>
     </div>
   );
